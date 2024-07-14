@@ -1,5 +1,5 @@
 import * as graphql from "@nestjs/graphql";
-import { CreateUserArgs } from "../user/base/CreateUserArgs";
+import { CreateMorArgs } from "../mor/CreateMorArgs";
 import { MorService } from "./mor.service";
 
 export class MorResolver {
@@ -8,7 +8,7 @@ export class MorResolver {
   @graphql.Mutation(() => String)
   async CreateMor(
     @graphql.Args()
-    args: CreateUserArgs
+    args: CreateMorArgs
   ): Promise<string> {
     return this.service.CreateMor(args);
   }

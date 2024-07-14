@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
-import { CreateUserArgs } from "../user/base/CreateUserArgs";
+import { CreateMorArgs } from "../mor/CreateMorArgs";
 
 @Injectable()
 export class MorService {
   constructor() {}
-  async CreateMor(args: CreateUserArgs): Promise<string> {
+  async CreateMor(args: CreateMorArgs): Promise<string> {
     throw new Error("Not implemented");
   }
 }
