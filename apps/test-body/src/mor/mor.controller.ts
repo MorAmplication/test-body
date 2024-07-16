@@ -9,7 +9,7 @@ import { CreateMorArgs } from "./CreateMorArgs";
 export class MorController {
   constructor(protected readonly service: MorService) {}
 
-  @common.Post("/:id/create-mor")
+  @common.Post("")
   @swagger.ApiOkResponse({
     type: CreateMorArgs
   })
