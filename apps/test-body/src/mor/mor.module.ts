@@ -1,9 +1,10 @@
 import { Module } from "@nestjs/common";
 import { MorService } from "./mor.service";
-import { MorResolver } from "../Mor/mor.resolver";
+import { MorController } from "./mor.controller";
 
 @Module({
-  providers: [MorService, MorResolver],
-  exports: [MorService]
+  controllers: [MorController],
+  providers: [MorService],
+  exports: [MorService],
 })
 export class MorModule {}
