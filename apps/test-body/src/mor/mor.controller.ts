@@ -26,7 +26,7 @@ export class MorController {
     body: string
   ): Promise<CreateMorArgs> {
         const args = {
-  name: params,
+  address: params,
   name: body,
   };
   return this.service.CreateMor(args);
