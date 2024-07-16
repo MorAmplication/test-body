@@ -5,11 +5,11 @@ import { MorService } from "../mor/mor.service";
 export class MorResolver {
   constructor(protected readonly service: MorService) {}
 
-  @graphql.Mutation(() => String)
+  @graphql.Mutation(() => CreateMorArgs)
   async CreateMor(
     @graphql.Args()
     args: CreateMorArgs
-  ): Promise<string> {
+  ): Promise<CreateMorArgs> {
     return this.service.CreateMor(args);
   }
 }

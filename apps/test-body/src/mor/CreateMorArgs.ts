@@ -1,7 +1,8 @@
-import { ArgsType, Field } from "@nestjs/graphql";
+import { ArgsType, ObjectType, Field } from "@nestjs/graphql";
 import { Type } from "class-transformer";
 
 @ArgsType()
+@ObjectType("CreateMorArgsObject")
 class CreateMorArgs {
     @Field(() => String)
     @Type(() => String)
