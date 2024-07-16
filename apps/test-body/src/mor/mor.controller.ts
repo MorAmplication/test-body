@@ -20,15 +20,9 @@ export class MorController {
     type: errors.ForbiddenException
   })
   async CreateMor(
-    @common.Param()
-    params: string,
     @common.Body()
     body: string
   ): Promise<CreateMorArgs> {
-        const args = {
-  address: params,
-  name: body,
-  };
-  return this.service.CreateMor(args);
+        return this.service.CreateMor(body);
       }
 }
