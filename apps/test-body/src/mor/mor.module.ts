@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { MorService } from "./mor.service";
-import { MorResolver } from "./mor.resolver";
+import { MorResolver } from "../Mor/mor.resolver";
 
 @Module({
   providers: [MorService, MorResolver],

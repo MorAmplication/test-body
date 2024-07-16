@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { CreateMorArgs } from "../mor/CreateMorArgs";
+import { CreateMorArgs } from "./CreateMorArgs";
 
 @Injectable()
 export class MorService {
