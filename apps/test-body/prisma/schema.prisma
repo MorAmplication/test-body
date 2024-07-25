@@ -18,3 +18,18 @@ model User {
   updatedAt DateTime @updatedAt
   username  String   @unique
 }
+
+model Mor {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
+}
+
+model Vika {
+  atest     String?
+  btest     String?
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
+  wtest     String?
+}

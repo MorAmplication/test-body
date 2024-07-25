@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { UserModule } from "./user/user.module";
 import { MorModule } from "./mor/mor.module";
+import { VikaModule } from "./vika/vika.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -20,6 +21,7 @@ import { AuthModule } from "./auth/auth.module";
     KafkaModule,
     UserModule,
     MorModule,
+    VikaModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,
