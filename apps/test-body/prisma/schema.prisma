@@ -8,13 +8,28 @@ generator client {
 }
 
 model User {
-  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  firstName String?
-  lastName  String?
-  username  String   @unique
   email     String?  @unique
+  firstName String?
+  id        String   @id @default(cuid())
+  lastName  String?
   password  String
   roles     Json
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+}
+
+model Mor {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
+}
+
+model Vika {
+  atest     String?
+  btest     String?
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
+  wtest     String?
 }

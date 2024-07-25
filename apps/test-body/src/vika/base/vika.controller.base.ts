@@ -18,104 +18,98 @@ import { plainToClass } from "class-transformer";
 import { ApiNestedQuery } from "../../decorators/api-nested-query.decorator";
 import * as nestAccessControl from "nest-access-control";
 import * as defaultAuthGuard from "../../auth/defaultAuth.guard";
-import { UserService } from "../user.service";
+import { VikaService } from "../vika.service";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
-import { UserCreateInput } from "./UserCreateInput";
-import { User } from "./User";
-import { UserFindManyArgs } from "./UserFindManyArgs";
-import { UserWhereUniqueInput } from "./UserWhereUniqueInput";
-import { UserUpdateInput } from "./UserUpdateInput";
+import { VikaCreateInput } from "./VikaCreateInput";
+import { Vika } from "./Vika";
+import { VikaFindManyArgs } from "./VikaFindManyArgs";
+import { VikaWhereUniqueInput } from "./VikaWhereUniqueInput";
+import { VikaUpdateInput } from "./VikaUpdateInput";
 
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
-export class UserControllerBase {
+export class VikaControllerBase {
   constructor(
-    protected readonly service: UserService,
+    protected readonly service: VikaService,
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {}
   @common.UseInterceptors(AclValidateRequestInterceptor)
   @common.Post()
-  @swagger.ApiCreatedResponse({ type: User })
+  @swagger.ApiCreatedResponse({ type: Vika })
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "Vika",
     action: "create",
     possession: "any",
   })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async createUser(@common.Body() data: UserCreateInput): Promise<User> {
-    return await this.service.createUser({
+  async createVika(@common.Body() data: VikaCreateInput): Promise<Vika> {
+    return await this.service.createVika({
       data: data,
       select: {
+        atest: true,
+        btest: true,
         createdAt: true,
-        email: true,
-        firstName: true,
         id: true,
-        lastName: true,
-        roles: true,
         updatedAt: true,
-        username: true,
+        wtest: true,
       },
     });
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
   @common.Get()
-  @swagger.ApiOkResponse({ type: [User] })
-  @ApiNestedQuery(UserFindManyArgs)
+  @swagger.ApiOkResponse({ type: [Vika] })
+  @ApiNestedQuery(VikaFindManyArgs)
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "Vika",
     action: "read",
     possession: "any",
   })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async users(@common.Req() request: Request): Promise<User[]> {
-    const args = plainToClass(UserFindManyArgs, request.query);
-    return this.service.users({
+  async vikas(@common.Req() request: Request): Promise<Vika[]> {
+    const args = plainToClass(VikaFindManyArgs, request.query);
+    return this.service.vikas({
       ...args,
       select: {
+        atest: true,
+        btest: true,
         createdAt: true,
-        email: true,
-        firstName: true,
         id: true,
-        lastName: true,
-        roles: true,
         updatedAt: true,
-        username: true,
+        wtest: true,
       },
     });
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
   @common.Get("/:id")
-  @swagger.ApiOkResponse({ type: User })
+  @swagger.ApiOkResponse({ type: Vika })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "Vika",
     action: "read",
     possession: "own",
   })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async user(
-    @common.Param() params: UserWhereUniqueInput
-  ): Promise<User | null> {
-    const result = await this.service.user({
+  async vika(
+    @common.Param() params: VikaWhereUniqueInput
+  ): Promise<Vika | null> {
+    const result = await this.service.vika({
       where: params,
       select: {
+        atest: true,
+        btest: true,
         createdAt: true,
-        email: true,
-        firstName: true,
         id: true,
-        lastName: true,
-        roles: true,
         updatedAt: true,
-        username: true,
+        wtest: true,
       },
     });
     if (result === null) {
@@ -128,33 +122,31 @@ export class UserControllerBase {
 
   @common.UseInterceptors(AclValidateRequestInterceptor)
   @common.Patch("/:id")
-  @swagger.ApiOkResponse({ type: User })
+  @swagger.ApiOkResponse({ type: Vika })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "Vika",
     action: "update",
     possession: "any",
   })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async updateUser(
-    @common.Param() params: UserWhereUniqueInput,
-    @common.Body() data: UserUpdateInput
-  ): Promise<User | null> {
+  async updateVika(
+    @common.Param() params: VikaWhereUniqueInput,
+    @common.Body() data: VikaUpdateInput
+  ): Promise<Vika | null> {
     try {
-      return await this.service.updateUser({
+      return await this.service.updateVika({
         where: params,
         data: data,
         select: {
+          atest: true,
+          btest: true,
           createdAt: true,
-          email: true,
-          firstName: true,
           id: true,
-          lastName: true,
-          roles: true,
           updatedAt: true,
-          username: true,
+          wtest: true,
         },
       });
     } catch (error) {
@@ -168,31 +160,29 @@ export class UserControllerBase {
   }
 
   @common.Delete("/:id")
-  @swagger.ApiOkResponse({ type: User })
+  @swagger.ApiOkResponse({ type: Vika })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "Vika",
     action: "delete",
     possession: "any",
   })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
-  async deleteUser(
-    @common.Param() params: UserWhereUniqueInput
-  ): Promise<User | null> {
+  async deleteVika(
+    @common.Param() params: VikaWhereUniqueInput
+  ): Promise<Vika | null> {
     try {
-      return await this.service.deleteUser({
+      return await this.service.deleteVika({
         where: params,
         select: {
+          atest: true,
+          btest: true,
           createdAt: true,
-          email: true,
-          firstName: true,
           id: true,
-          lastName: true,
-          roles: true,
           updatedAt: true,
-          username: true,
+          wtest: true,
         },
       });
     } catch (error) {

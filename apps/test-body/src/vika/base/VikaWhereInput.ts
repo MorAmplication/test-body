@@ -17,7 +17,7 @@ import { IsOptional } from "class-validator";
 import { StringFilter } from "../../util/StringFilter";
 
 @InputType()
-class UserWhereInput {
+class VikaWhereInput {
   @ApiProperty({
     required: false,
     type: StringNullableFilter,
@@ -27,7 +27,7 @@ class UserWhereInput {
   @Field(() => StringNullableFilter, {
     nullable: true,
   })
-  email?: StringNullableFilter;
+  atest?: StringNullableFilter;
 
   @ApiProperty({
     required: false,
@@ -38,7 +38,7 @@ class UserWhereInput {
   @Field(() => StringNullableFilter, {
     nullable: true,
   })
-  firstName?: StringNullableFilter;
+  btest?: StringNullableFilter;
 
   @ApiProperty({
     required: false,
@@ -60,18 +60,7 @@ class UserWhereInput {
   @Field(() => StringNullableFilter, {
     nullable: true,
   })
-  lastName?: StringNullableFilter;
-
-  @ApiProperty({
-    required: false,
-    type: StringFilter,
-  })
-  @Type(() => StringFilter)
-  @IsOptional()
-  @Field(() => StringFilter, {
-    nullable: true,
-  })
-  username?: StringFilter;
+  wtest?: StringNullableFilter;
 }
 
-export { UserWhereInput as UserWhereInput };
+export { VikaWhereInput as VikaWhereInput };

@@ -12,60 +12,40 @@ import { ACLModule } from "../../auth/acl.module";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { map } from "rxjs";
-import { UserController } from "../user.controller";
-import { UserService } from "../user.service";
+import { MorController } from "../mor.controller";
+import { MorService } from "../mor.service";
 
 const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
   createdAt: new Date(),
-  email: "exampleEmail",
-  firstName: "exampleFirstName",
   id: "exampleId",
-  lastName: "exampleLastName",
-  password: "examplePassword",
   updatedAt: new Date(),
-  username: "exampleUsername",
 };
 const CREATE_RESULT = {
   createdAt: new Date(),
-  email: "exampleEmail",
-  firstName: "exampleFirstName",
   id: "exampleId",
-  lastName: "exampleLastName",
-  password: "examplePassword",
   updatedAt: new Date(),
-  username: "exampleUsername",
 };
 const FIND_MANY_RESULT = [
   {
     createdAt: new Date(),
-    email: "exampleEmail",
-    firstName: "exampleFirstName",
     id: "exampleId",
-    lastName: "exampleLastName",
-    password: "examplePassword",
     updatedAt: new Date(),
-    username: "exampleUsername",
   },
 ];
 const FIND_ONE_RESULT = {
   createdAt: new Date(),
-  email: "exampleEmail",
-  firstName: "exampleFirstName",
   id: "exampleId",
-  lastName: "exampleLastName",
-  password: "examplePassword",
   updatedAt: new Date(),
-  username: "exampleUsername",
 };
 
 const service = {
-  createUser() {
+  createMor() {
     return CREATE_RESULT;
   },
-  users: () => FIND_MANY_RESULT,
-  user: ({ where }: { where: { id: string } }) => {
+  mors: () => FIND_MANY_RESULT,
+  mor: ({ where }: { where: { id: string } }) => {
     switch (where.id) {
       case existingId:
         return FIND_ONE_RESULT;
@@ -107,18 +87,18 @@ const aclValidateRequestInterceptor = {
   },
 };
 
-describe("User", () => {
+describe("Mor", () => {
   let app: INestApplication;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         {
-          provide: UserService,
+          provide: MorService,
           useValue: service,
         },
       ],
-      controllers: [UserController],
+      controllers: [MorController],
       imports: [ACLModule],
     })
       .overrideGuard(DefaultAuthGuard)
@@ -135,9 +115,9 @@ describe("User", () => {
     await app.init();
   });
 
-  test("POST /users", async () => {
+  test("POST /mors", async () => {
     await request(app.getHttpServer())
-      .post("/users")
+      .post("/mors")
       .send(CREATE_INPUT)
       .expect(HttpStatus.CREATED)
       .expect({
@@ -147,9 +127,9 @@ describe("User", () => {
       });
   });
 
-  test("GET /users", async () => {
+  test("GET /mors", async () => {
     await request(app.getHttpServer())
-      .get("/users")
+      .get("/mors")
       .expect(HttpStatus.OK)
       .expect([
         {
@@ -160,9 +140,9 @@ describe("User", () => {
       ]);
   });
 
-  test("GET /users/:id non existing", async () => {
+  test("GET /mors/:id non existing", async () => {
     await request(app.getHttpServer())
-      .get(`${"/users"}/${nonExistingId}`)
+      .get(`${"/mors"}/${nonExistingId}`)
       .expect(HttpStatus.NOT_FOUND)
       .expect({
         statusCode: HttpStatus.NOT_FOUND,
@@ -171,9 +151,9 @@ describe("User", () => {
       });
   });
 
-  test("GET /users/:id existing", async () => {
+  test("GET /mors/:id existing", async () => {
     await request(app.getHttpServer())
-      .get(`${"/users"}/${existingId}`)
+      .get(`${"/mors"}/${existingId}`)
       .expect(HttpStatus.OK)
       .expect({
         ...FIND_ONE_RESULT,
@@ -182,10 +162,10 @@ describe("User", () => {
       });
   });
 
-  test("POST /users existing resource", async () => {
+  test("POST /mors existing resource", async () => {
     const agent = request(app.getHttpServer());
     await agent
-      .post("/users")
+      .post("/mors")
       .send(CREATE_INPUT)
       .expect(HttpStatus.CREATED)
       .expect({
@@ -195,7 +175,7 @@ describe("User", () => {
       })
       .then(function () {
         agent
-          .post("/users")
+          .post("/mors")
           .send(CREATE_INPUT)
           .expect(HttpStatus.CONFLICT)
           .expect({

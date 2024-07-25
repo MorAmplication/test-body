@@ -12,60 +12,52 @@ import { ACLModule } from "../../auth/acl.module";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { map } from "rxjs";
-import { UserController } from "../user.controller";
-import { UserService } from "../user.service";
+import { VikaController } from "../vika.controller";
+import { VikaService } from "../vika.service";
 
 const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
+  atest: "exampleAtest",
+  btest: "exampleBtest",
   createdAt: new Date(),
-  email: "exampleEmail",
-  firstName: "exampleFirstName",
   id: "exampleId",
-  lastName: "exampleLastName",
-  password: "examplePassword",
   updatedAt: new Date(),
-  username: "exampleUsername",
+  wtest: "exampleWtest",
 };
 const CREATE_RESULT = {
+  atest: "exampleAtest",
+  btest: "exampleBtest",
   createdAt: new Date(),
-  email: "exampleEmail",
-  firstName: "exampleFirstName",
   id: "exampleId",
-  lastName: "exampleLastName",
-  password: "examplePassword",
   updatedAt: new Date(),
-  username: "exampleUsername",
+  wtest: "exampleWtest",
 };
 const FIND_MANY_RESULT = [
   {
+    atest: "exampleAtest",
+    btest: "exampleBtest",
     createdAt: new Date(),
-    email: "exampleEmail",
-    firstName: "exampleFirstName",
     id: "exampleId",
-    lastName: "exampleLastName",
-    password: "examplePassword",
     updatedAt: new Date(),
-    username: "exampleUsername",
+    wtest: "exampleWtest",
   },
 ];
 const FIND_ONE_RESULT = {
+  atest: "exampleAtest",
+  btest: "exampleBtest",
   createdAt: new Date(),
-  email: "exampleEmail",
-  firstName: "exampleFirstName",
   id: "exampleId",
-  lastName: "exampleLastName",
-  password: "examplePassword",
   updatedAt: new Date(),
-  username: "exampleUsername",
+  wtest: "exampleWtest",
 };
 
 const service = {
-  createUser() {
+  createVika() {
     return CREATE_RESULT;
   },
-  users: () => FIND_MANY_RESULT,
-  user: ({ where }: { where: { id: string } }) => {
+  vikas: () => FIND_MANY_RESULT,
+  vika: ({ where }: { where: { id: string } }) => {
     switch (where.id) {
       case existingId:
         return FIND_ONE_RESULT;
@@ -107,18 +99,18 @@ const aclValidateRequestInterceptor = {
   },
 };
 
-describe("User", () => {
+describe("Vika", () => {
   let app: INestApplication;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         {
-          provide: UserService,
+          provide: VikaService,
           useValue: service,
         },
       ],
-      controllers: [UserController],
+      controllers: [VikaController],
       imports: [ACLModule],
     })
       .overrideGuard(DefaultAuthGuard)
@@ -135,9 +127,9 @@ describe("User", () => {
     await app.init();
   });
 
-  test("POST /users", async () => {
+  test("POST /vikas", async () => {
     await request(app.getHttpServer())
-      .post("/users")
+      .post("/vikas")
       .send(CREATE_INPUT)
       .expect(HttpStatus.CREATED)
       .expect({
@@ -147,9 +139,9 @@ describe("User", () => {
       });
   });
 
-  test("GET /users", async () => {
+  test("GET /vikas", async () => {
     await request(app.getHttpServer())
-      .get("/users")
+      .get("/vikas")
       .expect(HttpStatus.OK)
       .expect([
         {
@@ -160,9 +152,9 @@ describe("User", () => {
       ]);
   });
 
-  test("GET /users/:id non existing", async () => {
+  test("GET /vikas/:id non existing", async () => {
     await request(app.getHttpServer())
-      .get(`${"/users"}/${nonExistingId}`)
+      .get(`${"/vikas"}/${nonExistingId}`)
       .expect(HttpStatus.NOT_FOUND)
       .expect({
         statusCode: HttpStatus.NOT_FOUND,
@@ -171,9 +163,9 @@ describe("User", () => {
       });
   });
 
-  test("GET /users/:id existing", async () => {
+  test("GET /vikas/:id existing", async () => {
     await request(app.getHttpServer())
-      .get(`${"/users"}/${existingId}`)
+      .get(`${"/vikas"}/${existingId}`)
       .expect(HttpStatus.OK)
       .expect({
         ...FIND_ONE_RESULT,
@@ -182,10 +174,10 @@ describe("User", () => {
       });
   });
 
-  test("POST /users existing resource", async () => {
+  test("POST /vikas existing resource", async () => {
     const agent = request(app.getHttpServer());
     await agent
-      .post("/users")
+      .post("/vikas")
       .send(CREATE_INPUT)
       .expect(HttpStatus.CREATED)
       .expect({
@@ -195,7 +187,7 @@ describe("User", () => {
       })
       .then(function () {
         agent
-          .post("/users")
+          .post("/vikas")
           .send(CREATE_INPUT)
           .expect(HttpStatus.CONFLICT)
           .expect({
